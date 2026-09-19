@@ -8,7 +8,7 @@ This project combines a trained machine learning model with a Flask REST API and
 
 The user enters property details through the web interface, and the frontend sends them to the Flask backend. The backend loads the saved model and returns the predicted home price in **Lakhs**.
 
-The backend exposes endpoints for checking the API, retrieving available locations, and predicting a home's price. The prediction endpoint accepts `total_sqft`, `bhk`, `bath`, and `location`. fileciteturn0file0L14-L29
+The backend exposes endpoints for checking the API, retrieving available locations, and predicting a home's price. The prediction endpoint accepts `total_sqft`, `bhk`, `bath`, and `location`.
 
 ## Features
 
@@ -44,7 +44,7 @@ The backend exposes endpoints for checking the API, retrieving available locatio
 - JavaScript
 - jQuery
 
-The frontend uses jQuery to call the prediction and location APIs. fileciteturn0file5L21-L40
+The frontend uses jQuery to call the prediction and location APIs.
 
 ## Project Structure
 
@@ -66,7 +66,7 @@ Bangalore-Home-Price-Prediction/
 └── README.md
 ```
 
-> Note: The backend code expects the trained model and `columns.json` inside an `artifacts/` directory. fileciteturn0file1L37-L55
+> Note: The backend code expects the trained model and `columns.json` inside an `artifacts/` directory. 
 
 ## How It Works
 
@@ -105,7 +105,7 @@ Frontend
 Price displayed in Lakhs
 ```
 
-The model input vector is built from square footage, bathroom count, BHK, and a one-hot location feature before the saved model generates the prediction. fileciteturn0file1L15-L30
+The model input vector is built from square footage, bathroom count, BHK, and a one-hot location feature before the saved model generates the prediction.
 
 ## Machine Learning Model
 
@@ -115,7 +115,7 @@ The trained model is stored as:
 banglore_home_prices_model.pickle
 ```
 
-The application loads the model with Python's `pickle` module and obtains the expected feature columns from the saved artifacts. fileciteturn0file1L1-L12
+The application loads the model with Python's `pickle` module and obtains the expected feature columns from the saved artifacts. 
 
 The feature schema starts with:
 
@@ -125,7 +125,7 @@ bath
 bhk
 ```
 
-followed by location features such as Bangalore neighborhoods. fileciteturn0file2L1-L1
+followed by location features such as Bangalore neighborhoods.
 
 ## Backend API
 
@@ -186,9 +186,9 @@ The UI provides controls for:
 - Location selection
 - Estimate Price button
 
-The HTML defines these input controls and displays the returned estimated price. fileciteturn0file4L11-L27 fileciteturn0file4L31-L55
+The HTML defines these input controls and displays the returned estimated price.
 
-Locations can also be populated dynamically from the API rather than being hard-coded in the UI. fileciteturn0file5L44-L62
+Locations can also be populated dynamically from the API rather than being hard-coded in the UI.
 
 ## Installation
 
@@ -217,7 +217,7 @@ venv\Scripts\activate
 pip install flask numpy pandas scikit-learn
 ```
 
-If you use the provided frontend JavaScript, jQuery is loaded from Google's CDN by the HTML page. fileciteturn0file4L3-L7
+If you use the provided frontend JavaScript, jQuery is loaded from Google's CDN by the HTML page.
 
 ## Run the Application
 
@@ -235,7 +235,7 @@ Then start the Flask server:
 python server.py
 ```
 
-The server loads the saved artifacts before starting Flask. fileciteturn0file0L46-L49
+The server loads the saved artifacts before starting Flask.
 
 Open the frontend in your browser and enter the property details.
 
