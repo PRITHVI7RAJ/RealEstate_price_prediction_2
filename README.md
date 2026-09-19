@@ -1,0 +1,307 @@
+# Bangalore Home Price Prediction
+
+A machine learning web application that predicts the estimated price of a residential property in Bangalore based on **total area, BHK, number of bathrooms, and location**.
+
+## Project Overview
+
+This project combines a trained machine learning model with a Flask REST API and a simple HTML/CSS/JavaScript frontend.
+
+The user enters property details through the web interface, and the frontend sends them to the Flask backend. The backend loads the saved model and returns the predicted home price in **Lakhs**.
+
+The backend exposes endpoints for checking the API, retrieving available locations, and predicting a home's price. The prediction endpoint accepts `total_sqft`, `bhk`, `bath`, and `location`. fileciteturn0file0L14-L29
+
+## Features
+
+- Predict Bangalore home prices from property details
+- Inputs:
+  - Total area in square feet
+  - BHK
+  - Number of bathrooms
+  - Location
+- Dynamic location loading from the backend
+- Flask REST API
+- Pre-trained model loaded from a Pickle file
+- Simple browser-based frontend
+- Price displayed in Lakhs
+
+## Tech Stack
+
+### Machine Learning
+- Python
+- NumPy
+- Pandas
+- Scikit-learn model saved with Pickle
+
+### Backend
+- Flask
+- REST API
+- JSON / form-data handling
+- CORS headers
+
+### Frontend
+- HTML
+- CSS
+- JavaScript
+- jQuery
+
+The frontend uses jQuery to call the prediction and location APIs. fileciteturn0file5L21-L40
+
+## Project Structure
+
+```text
+Bangalore-Home-Price-Prediction/
+│
+├── BPP.ipynb
+├── server.py
+├── util.py
+│
+├── artifacts/
+│   ├── banglore_home_prices_model.pickle
+│   └── columns.json
+│
+├── app.html
+├── app.css
+├── app.js
+│
+└── README.md
+```
+
+> Note: The backend code expects the trained model and `columns.json` inside an `artifacts/` directory. fileciteturn0file1L37-L55
+
+## How It Works
+
+```text
+User
+  │
+  ▼
+Web Interface
+  │
+  │  Property Details
+  │  - Area
+  │  - BHK
+  │  - Bathrooms
+  │  - Location
+  ▼
+JavaScript / jQuery
+  │
+  ▼
+Flask REST API
+  │
+  ▼
+util.py
+  │
+  ├── Load columns.json
+  ├── Load trained Pickle model
+  ├── Prepare input features
+  └── Generate prediction
+  │
+  ▼
+Predicted Price
+  │
+  ▼
+Frontend
+  │
+  ▼
+Price displayed in Lakhs
+```
+
+The model input vector is built from square footage, bathroom count, BHK, and a one-hot location feature before the saved model generates the prediction. fileciteturn0file1L15-L30
+
+## Machine Learning Model
+
+The trained model is stored as:
+
+```text
+banglore_home_prices_model.pickle
+```
+
+The application loads the model with Python's `pickle` module and obtains the expected feature columns from the saved artifacts. fileciteturn0file1L1-L12
+
+The feature schema starts with:
+
+```text
+total_sqft
+bath
+bhk
+```
+
+followed by location features such as Bangalore neighborhoods. fileciteturn0file2L1-L1
+
+## Backend API
+
+### 1. Home
+
+```http
+GET /
+```
+
+Response:
+
+```text
+Home Price Prediction API is running.
+```
+
+### 2. Get Locations
+
+```http
+GET /get_location_names
+```
+
+Returns the available locations used by the application.
+
+### 3. Predict Home Price
+
+```http
+POST /predict_home_price
+```
+
+Request parameters:
+
+```json
+{
+  "total_sqft": 1000,
+  "bhk": 2,
+  "bath": 2,
+  "location": "1st Phase JP Nagar"
+}
+```
+
+Example response:
+
+```json
+{
+  "estimated_price": 50.25
+}
+```
+
+The exact value depends on the trained model and input data.
+
+## Frontend
+
+The UI provides controls for:
+
+- Area in square feet
+- BHK selection from 1–5
+- Bathroom selection from 1–5
+- Location selection
+- Estimate Price button
+
+The HTML defines these input controls and displays the returned estimated price. fileciteturn0file4L11-L27 fileciteturn0file4L31-L55
+
+Locations can also be populated dynamically from the API rather than being hard-coded in the UI. fileciteturn0file5L44-L62
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd Bangalore-Home-Price-Prediction
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install flask numpy pandas scikit-learn
+```
+
+If you use the provided frontend JavaScript, jQuery is loaded from Google's CDN by the HTML page. fileciteturn0file4L3-L7
+
+## Run the Application
+
+Make sure the following files are available:
+
+```text
+artifacts/
+├── banglore_home_prices_model.pickle
+└── columns.json
+```
+
+Then start the Flask server:
+
+```bash
+python server.py
+```
+
+The server loads the saved artifacts before starting Flask. fileciteturn0file0L46-L49
+
+Open the frontend in your browser and enter the property details.
+
+## Example Prediction
+
+For example:
+
+```text
+Area      : 1000 sq ft
+BHK       : 2
+Bathrooms : 2
+Location  : 1st Phase JP Nagar
+```
+
+The application sends these values to the prediction API, which returns the estimated price generated by the trained model.
+
+## API Request Flow
+
+```text
+Frontend
+   │
+   │ POST /predict_home_price
+   ▼
+Flask
+   │
+   ▼
+util.get_estimated_price()
+   │
+   ├── Normalize location
+   ├── Create feature vector
+   ├── Set location feature
+   └── model.predict()
+   │
+   ▼
+JSON Response
+   │
+   ▼
+Frontend displays:
+Estimated Price: XX Lakh
+```
+
+## Important Notes
+
+- The project uses a pre-trained model; retraining is performed separately in `BPP.ipynb`.
+- The backend expects the saved model and feature metadata in the `artifacts/` directory.
+- Location names must match the available model features.
+- The prediction is an estimate produced by the trained machine learning model and should not be treated as a guaranteed market price.
+- The project name and some filenames use the spelling `banglore`; this has been retained to match the existing project files.
+
+## Future Improvements
+
+- Add input validation and better error messages
+- Add model evaluation metrics to the project documentation
+- Improve UI responsiveness
+- Add price visualization by location
+- Deploy the Flask API and frontend
+- Add automated tests for API endpoints
+- Add Docker support
+- Add a more modern frontend
+
+## Author
+
+**Prithvi Raj**
+
+AI / Machine Learning Engineer
+
+---
+
+⭐ If you found this project useful, consider giving the repository a star.
